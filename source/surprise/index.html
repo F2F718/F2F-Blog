@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>专属惊喜 - F2F</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #2c3e50;
+      background: linear-gradient(135deg, #1a252f 0%, #2c3e50 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      padding: 2rem;
+    }
+    .container { text-align: center; max-width: 500px; width: 100%; }
+    .lock-icon { font-size: 3rem; margin-bottom: 1.5rem; opacity: 0.6; }
+    h1 { font-size: 1.8rem; font-weight: 300; margin-bottom: 0.5rem; letter-spacing: 0.1em; }
+    .subtitle { color: rgba(255,255,255,0.5); margin-bottom: 2rem; font-size: 0.9rem; }
+    .password-form { display: flex; flex-direction: column; gap: 1rem; align-items: center; }
+    input[type="password"] {
+      width: 100%; max-width: 280px; padding: 14px 20px;
+      border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.05);
+      color: #fff; font-size: 1rem; text-align: center; letter-spacing: 0.1em;
+      outline: none; transition: border-color 0.3s;
+    }
+    input[type="password"]:focus { border-color: rgba(255,255,255,0.6); }
+    input[type="password"]::placeholder { color: rgba(255,255,255,0.3); }
+    button {
+      padding: 12px 48px; border: 1px solid rgba(255,255,255,0.5);
+      background: transparent; color: #fff; font-size: 0.9rem;
+      letter-spacing: 0.2em; cursor: pointer; transition: all 0.3s;
+    }
+    button:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.8); }
+    .hidden-content { display: none; text-align: left; line-height: 2; animation: fadeIn 1s ease; }
+    .hidden-content.show { display: block; }
+    .hidden-content h2 { text-align: center; font-weight: 300; margin-bottom: 1.5rem; letter-spacing: 0.1em; }
+    .hidden-content p { margin-bottom: 1rem; color: rgba(255,255,255,0.85); }
+    .error-msg { color: #e74c3c; font-size: 0.85rem; height: 1.2rem; opacity: 0; transition: opacity 0.3s; }
+    .error-msg.show { opacity: 1; }
+    .back-link { margin-top: 2rem; color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+    .back-link:hover { color: rgba(255,255,255,0.7); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) {
+      .welcome-logo { font-size: 2.5rem; letter-spacing: 0.2em; }
+      .welcome-subtitle { font-size: 1rem; }
+      .welcome-enter-btn { padding: 12px 36px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="lock-screen">
+      <div class="lock-icon">🔒</div>
+      <h1>专属惊喜</h1>
+      <p class="subtitle">请输入礼物卡片中的密码</p>
+      <div class="password-form">
+        <input type="password" id="password-input" placeholder="输入密码" autocomplete="off">
+        <p class="error-msg" id="error-msg">密码错误，请再试一次</p>
+        <button onclick="checkPassword()">解 锁</button>
+      </div>
+      <a href="/" class="back-link">← 返回首页</a>
+    </div>
+    <div class="hidden-content" id="hidden-content">
+      <h2>致爸爸的一封信</h2>
+      <p>爸：</p>
+      <p>当你看到这封信的时候，说明你已经成功解锁了这个小秘密。</p>
+      <p>这个网站是我花了整整一天时间为你搭建的。虽然我的技术还很稚嫩，但每一行代码、每一个字，都是我想对你说的话。</p>
+      <p>你是一个有趣的人——F2F，付双飞，Face to Face。你总是面对面地跟这个世界交流，认真地做实验，专注地读书，用心地生活。</p>
+      <p>希望这个小小的线上书房，能成为你记录思考、分享感悟的地方。也希望你能喜欢这份礼物。</p>
+      <p>生日快乐。愿你永远保持这份对世界的好奇与热爱。</p>
+      <p style="text-align: right; margin-top: 2rem;">—— 你的孩子<br>2026年8月30日</p>
+      <div style="text-align: center; margin-top: 3rem;"><a href="/" class="back-link">← 返回首页</a></div>
+    </div>
+  </div>
+  <script>
+    const SECRET_PASSWORD = 'F2F2026';
+    function checkPassword() {
+      const input = document.getElementById('password-input');
+      const errorMsg = document.getElementById('error-msg');
+      const lockScreen = document.getElementById('lock-screen');
+      const hiddenContent = document.getElementById('hidden-content');
+      if (input.value === SECRET_PASSWORD) {
+        lockScreen.style.display = 'none';
+        hiddenContent.classList.add('show');
+        document.title = '致爸爸的一封信 - F2F';
+      } else {
+        errorMsg.classList.add('show');
+        input.value = ''; input.focus();
+        setTimeout(() => { errorMsg.classList.remove('show'); }, 3000);
+      }
+    }
+    document.getElementById('password-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+  </script>
+</body>
+</html>
